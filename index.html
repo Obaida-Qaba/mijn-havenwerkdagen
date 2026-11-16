@@ -10,6 +10,7 @@
 <title>Mijn Havenwerkdagen</title>
 <style>
 :root{font-family:Inter,Arial,sans-serif;color:#102437;background:#eef3f4}*{box-sizing:border-box}body{margin:0}header{background:#102437;color:white;padding:27px max(20px,calc((100vw - 1120px)/2))}header small{letter-spacing:.16em;color:#75d5c4;font-weight:800}h1{font-size:clamp(28px,4vw,42px);margin:8px 0 6px}header p{margin:0;color:#c6d4da}main{max-width:1120px;margin:25px auto;padding:0 20px 40px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.card,.panel{background:white;border:1px solid #dbe4e8;border-radius:16px;box-shadow:0 4px 20px #142c3b0a}.card{padding:18px}.card span{display:block;font-size:12px;font-weight:800;color:#5d7381;text-transform:uppercase;letter-spacing:.08em}.card strong{font-size:27px;display:block;margin-top:9px}.card.primary{background:#d7f2e9;border-color:#a9dccc}.layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:16px}.panel{padding:20px}.bar{display:flex;align-items:center;justify-content:space-between;gap:10px}.bar h2{margin:0;font-size:20px}.nav{display:flex;align-items:center;gap:8px}.nav button,button{font:inherit;cursor:pointer}button{border:1px solid #c9d8de;background:#fff;border-radius:9px;padding:8px 12px;color:#173648;font-weight:700}button:hover{border-color:#178d79}.weekday,.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.weekday{margin-top:23px;color:#637986;font-size:12px;font-weight:800;text-align:center}.weekday div{padding:5px}.calendar{margin-top:5px}.day{min-height:71px;border:1px solid #dce5e8;border-radius:10px;background:#f8fafb;text-align:left;padding:8px;display:flex;flex-direction:column;justify-content:space-between}.day:hover{background:#e8f6f2}.day.worked{background:#d6f0e8;border-color:#6ec7ac}.day.planned{background:#fff0cc;border-color:#e3bd62}.day.selected{outline:2px solid #147d6b}.day .amount{font-size:11px;color:#2e7664}.day.empty{visibility:hidden}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}label{font-size:13px;font-weight:700;color:#425a69;display:block}input,select{width:100%;border:1px solid #cbd9de;border-radius:9px;background:white;padding:10px;margin-top:6px;font:inherit;color:#102437}input:focus,select:focus{outline:2px solid #69c7b0}.wide{grid-column:1/-1}.actions{display:flex;gap:9px;margin-top:17px}.save{background:#13836e;color:#fff;border-color:#13836e}.save:hover{background:#0c6958}.remove{color:#a44545}.note{font-size:12px;line-height:1.5;color:#617785;margin:12px 0 0}.breakdown{margin-top:20px;border-top:1px solid #e1e8eb;padding-top:10px}.line{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}.line.total{border-top:1px solid #d7e2e5;margin-top:6px;padding-top:12px;font-weight:800;font-size:17px}.settings{margin-top:17px}.settings summary{cursor:pointer;font-weight:800}.settings .formgrid{margin-bottom:9px}.warning{background:#fff4dc;padding:10px;border-radius:8px;color:#765721;margin-top:12px;font-size:12px;line-height:1.4}.list{margin-top:20px}.list h3{font-size:15px}.entry{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e5eced;font-size:13px}.entry button{padding:3px 7px}.privacy{margin-top:20px;color:#657987;font-size:12px;line-height:1.5}@media(max-width:750px){.layout{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}.cards .card:last-child{grid-column:1/-1}.day{min-height:57px;padding:5px}.day .amount{font-size:9px}.panel{padding:16px}}@media(max-width:390px){.bar{align-items:flex-start}.nav{gap:3px}.nav button{padding:5px}.formgrid{grid-template-columns:1fr}}
+.payroll-note{margin:-5px 0 18px;padding:11px 14px;background:#e1f3ec;border:1px solid #b0d9c8;border-radius:10px;color:#215a48;font-size:13px;line-height:1.4}.payroll-note:empty{display:none}
 @media(max-width:750px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.cards .card:last-child{grid-column:auto}.card strong{font-size:clamp(18px,5vw,27px)}.layout{grid-template-columns:minmax(0,1fr)}.panel{min-width:0}.weekday,.calendar{grid-template-columns:repeat(7,minmax(0,1fr))}.day{min-width:0}.day .amount{font-size:8px;letter-spacing:-.04em;white-space:nowrap}.bar{flex-wrap:wrap}header small{display:block;font-size:11px}}
 @media(max-width:390px){.cards{grid-template-columns:1fr 1fr}.card{padding:12px}.day{padding:3px;min-height:55px}.day .amount{font-size:7px}}
 </style>
@@ -17,15 +18,20 @@
 <body>
 <header><small>PERSOONLIJKE CALCULATOR · RODE KAART</small><h1>Mijn Havenwerkdagen</h1><p>Zeebrugge · kies je dagen, vul je startuur in en bekijk je loonraming.</p></header>
 <main>
- <section class="cards" aria-label="Maandtotalen"><div class="card primary"><span>Netto raming gewerkt</span><strong id="netTotal">€ 0,00</strong></div><div class="card"><span>Bruto loon gewerkt</span><strong id="grossTotal">€ 0,00</strong></div><div class="card"><span>Gewerkte dagen</span><strong id="dayCount">0</strong></div><div class="card"><span>Netto incl. gepland</span><strong id="projectedTotal">€ 0,00</strong></div></section>
+ <section class="cards" aria-label="Maandtotalen"><div class="card primary"><span id="netLabel">Netto raming gewerkt</span><strong id="netTotal">€ 0,00</strong></div><div class="card"><span>Bruto loon gewerkt</span><strong id="grossTotal">€ 0,00</strong></div><div class="card"><span>Gewerkte dagen</span><strong id="dayCount">0</strong></div><div class="card"><span>Netto incl. gepland</span><strong id="projectedTotal">€ 0,00</strong></div></section>
+ <p class="payroll-note" id="payrollNote"></p>
  <div class="layout"><section class="panel"><div class="bar"><h2 id="monthTitle"></h2><div class="nav"><button id="prev" aria-label="Vorige maand">‹</button><button id="today">Vandaag</button><button id="next" aria-label="Volgende maand">›</button></div></div><div class="weekday"><div>MA</div><div>DI</div><div>WO</div><div>DO</div><div>VR</div><div>ZA</div><div>ZO</div></div><div class="calendar" id="calendar"></div><p class="note">Groen = gewerkt, geel = gepland. Geplande shiften tellen alleen mee in de prognose. Tik een dag aan om een shift toe te voegen of te wijzigen. Alles blijft in deze browser op dit toestel.</p><div class="list"><h3>Shiften deze maand</h3><div id="entries"></div></div></section>
  <aside class="panel"><h2 id="selectedTitle">Shift</h2><form id="shiftForm"><div class="formgrid"><label class="wide">Status<select id="status"><option value="worked">Gewerkt</option><option value="planned">Gepland</option></select></label><label class="wide">Bedrijf / terminal<input id="company" type="text" maxlength="80" placeholder="Bijvoorbeeld ICO"></label><label>Startuur<select id="start"><option value="">Nog onbekend</option></select></label><label>Einduur (optioneel)<input id="end" type="time"></label><label>Soort shift<select id="kind"><option value="full">Volle shift</option><option value="half">Halve shift</option></select></label><label>Gewerkte uren (optioneel)<input id="hours" type="number" min="0" max="24" step="0.25" placeholder="8"></label><label>Overuren<input id="overtime" type="number" min="0" max="16" step="0.25" value="0"></label><label>Extra premie bruto (€)<input id="extra" type="number" min="0" step="0.01" value="0"></label></div><div class="actions"><button class="save" type="submit">Shift opslaan</button><button class="remove" type="button" id="remove">Verwijderen</button></div></form><div class="breakdown" id="breakdown"></div>
- <details class="settings"><summary>Mijn instellingen en loonbedragen</summary><div class="formgrid"><label>Statuut<input value="Rode kaart" disabled></label><label>Functie<input value="Alle werk" disabled></label><label>Woonplaats<input value="Oostende 8400" disabled></label><label>Vervoer<input value="Eigen auto" disabled></label><label>Kinderen fiscaal ten laste<input value="2" disabled></label><label>Partner<input value="Wettelijk samenwonend, geen beroepsinkomen" disabled></label><label>Vervoer per volle shift (€)<input id="travel" type="number" min="0" step="0.01"></label><label>Vaste dagpremie bruto (€)<input id="premium" type="number" min="0" step="0.01"></label><label>RSZ percentage<input id="rsz" type="number" min="0" max="50" step="0.01"></label><label>Voorheffing percentage na RSZ<input id="tax" type="number" min="0" max="80" step="0.1"></label><label class="wide">Werkbonus / netto correctie per shift (€)<input id="bonus" type="number" min="0" step="0.01"></label></div><p class="note">Pas deze bedragen aan met je loonbrief. Voorheffing en werkbonus zijn persoonlijk; de standaard netto uitkomst is voorlopig een raming.</p></details><div class="warning">De bruto starttarieven volgen de publiek getoonde tarieven van Haven Werkuren vanaf 7 juli 2026. De exacte netto formule, premies, feestdagen en oudere tarieven zijn hier nog niet volledig bevestigd. Gebruik je loonbrief als controle.</div></aside></div>
+ <details class="settings"><summary>Mijn instellingen en loonbedragen</summary><div class="formgrid"><label>Statuut<input value="Rode kaart" disabled></label><label>Functie<input value="Alle werk" disabled></label><label>Woonplaats<input value="Oostende 8400" disabled></label><label>Vervoer<input value="Eigen auto" disabled></label><label>Kinderen fiscaal ten laste<input value="2" disabled></label><label>Partner<input value="Wettelijk samenwonend, geen beroepsinkomen" disabled></label><label>Vervoer per shift (€)<input id="travel" type="number" min="0" step="0.01"></label><label>Vaste dagpremie bruto (€)<input id="premium" type="number" min="0" step="0.01"></label><label>Kledijvergoeding per shift (€)<input id="clothing" type="number" min="0" step="0.01"></label><label>Andere inhouding per shift (€)<input id="deduction" type="number" min="0" step="0.01"></label><label>RSZ percentage<input id="rsz" type="number" min="0" max="50" step="0.0001"></label><label>Voorheffing<select id="taxMode"><option value="payslip">Raming op basis van loonbrieven</option><option value="manual">Vast percentage</option></select></label><label>Voorheffing percentage na RSZ<input id="tax" type="number" min="0" max="80" step="0.1"></label><label>Werkbonus / netto correctie per shift (€)<input id="bonus" type="number" min="0" step="0.01"></label></div><p class="note">De raming is afgeleid van je twee loonbrieven van oktober 2026. Exacte voorheffing op andere loonperiodes kan afwijken.</p></details><div class="warning">Bevestigde netto bedragen komen uit je loonbrieven. Andere bedragen blijven een raming; vooral de voorheffing wordt per loonperiode berekend. Controleer nieuwe betalingen met de loonbrief.</div></aside></div>
  <p class="privacy">Zelfstandige persoonlijke rekentool. Geen verbinding met Cewez of de maker van Haven Werkuren. Gegevens worden alleen lokaal opgeslagen.</p>
 </main>
 <script>
 const RATES={'04:00':[270.18,55.91],'05:00':[229.66,47.52],'06:00':[189.13,39.14],'07:00':[183.82,38.03],'08:00':[180.12,37.26],'09:00':[191.28,39.57],'10:00':[193.63,40.07],'11:00':[193.63,40.07],'12:00':[207.14,42.86],'13:00':[207.14,42.86],'14:00':[207.14,42.86],'15:00':[215.83,44.66],'16:00':[224.53,46.46],'17:00':[233.23,48.26],'18:00':[270.18,55.91],'19:00':[270.18,55.91],'20:00':[270.18,55.91],'21:00':[270.18,55.91],'22:00':[270.18,55.91]};
-const defaults={travel:3.45,premium:5.28,rsz:13.07,tax:0,bonus:0};
+const defaults={travel:3.45,premium:5.28,clothing:1.59,deduction:1.09,rsz:14.11556,taxMode:'payslip',tax:0,bonus:0};
+const PAYSLIPS={
+ '2026-10-early':{dates:['2026-10-03','2026-10-04','2026-10-12','2026-10-14'],gross:1020.79,social:144.09,withholding:0,allowance:20.16,deduction:4.36,net:892.50,paid:'19 oktober'},
+ '2026-10-late':{dates:['2026-10-10','2026-10-16','2026-10-17','2026-10-19','2026-10-21','2026-10-22','2026-10-23','2026-10-26','2026-10-27','2026-10-29','2026-10-30','2026-10-31'],gross:2687.88,social:379.41,withholding:596.19,allowance:60.48,deduction:13.08,net:1759.68,paid:'4 november'}
+};
 const fmt=new Intl.NumberFormat('nl-BE',{style:'currency',currency:'EUR'});
 const now=new Date(), state={year:now.getFullYear(),month:now.getMonth(),selected:null};
 let shifts={},settings={...defaults};try{shifts=JSON.parse(localStorage.getItem('mijn-haven-shifts')||'{}');settings={...defaults,...JSON.parse(localStorage.getItem('mijn-haven-settings')||'{}')}}catch(e){}
@@ -43,26 +49,80 @@ if(!localStorage.getItem('mijn-haven-2026-10-23-added')){if(!shifts['2026-10-23'
 if(!localStorage.getItem('mijn-haven-2026-10-21-22-worked')){for(const [date,start] of [['2026-10-21','08:00'],['2026-10-22','06:00']])shifts[date]={...(shifts[date]||{company:'ICO',start,end:'',hours:0,kind:'full',overtime:0,extra:0}),status:'worked'};localStorage.setItem('mijn-haven-shifts',JSON.stringify(shifts));localStorage.setItem('mijn-haven-2026-10-21-22-worked','1')}
 if(!localStorage.getItem('mijn-haven-2026-10-26-added')){if(!shifts['2026-10-26']){shifts['2026-10-26']={company:'ICO',start:'06:00',end:'',hours:0,status:'worked',kind:'full',overtime:0,extra:0};localStorage.setItem('mijn-haven-shifts',JSON.stringify(shifts))}localStorage.setItem('mijn-haven-2026-10-26-added','1')}
 if(!localStorage.getItem('mijn-haven-2026-10-27-added')){if(!shifts['2026-10-27']){shifts['2026-10-27']={company:'ICO',start:'06:00',end:'',hours:0,status:'planned',kind:'full',overtime:0,extra:0};localStorage.setItem('mijn-haven-shifts',JSON.stringify(shifts))}localStorage.setItem('mijn-haven-2026-10-27-added','1')}
+if(!localStorage.getItem('mijn-haven-payslip-october-shifts')){
+ if(shifts['2026-10-10']&&!shifts['2026-10-10'].start){shifts['2026-10-10'].start='14:00';shifts['2026-10-10'].company=shifts['2026-10-10'].company||'CLDN';shifts['2026-10-10'].assumedHours=false}
+ shifts['2026-10-27']={...(shifts['2026-10-27']||{company:'ICO',start:'06:00',kind:'full',overtime:0,extra:0}),status:'worked'};
+ for(const [date,start,overtime] of [['2026-10-29','06:00',0],['2026-10-30','06:00',0],['2026-10-31','14:00',2]])if(!shifts[date])shifts[date]={company:'ICO',start,status:'worked',kind:'full',overtime,extra:0};
+ localStorage.setItem('mijn-haven-shifts',JSON.stringify(shifts));localStorage.setItem('mijn-haven-payslip-october-shifts','1');
+}
+if(!localStorage.getItem('mijn-haven-payroll-settings-v2')){
+ if(Number(settings.rsz)===13.07)settings.rsz=defaults.rsz;
+ settings.taxMode=Number(settings.tax||0)>0?'manual':'payslip';
+ settings.clothing=Number.isFinite(Number(settings.clothing))?Number(settings.clothing):defaults.clothing;
+ settings.deduction=Number.isFinite(Number(settings.deduction))?Number(settings.deduction):defaults.deduction;
+ localStorage.setItem('mijn-haven-settings',JSON.stringify(settings));localStorage.setItem('mijn-haven-payroll-settings-v2','1');
+}
 const $=id=>document.getElementById(id),round=n=>Math.round((n+Number.EPSILON)*100)/100;
 function key(y,m,d){return [y,String(m+1).padStart(2,'0'),String(d).padStart(2,'0')].join('-')}
 function dateLabel(k){return new Intl.DateTimeFormat('nl-BE',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date(k+'T12:00:00'))}
-function calc(k,s){let dow=new Date(k+'T12:00:00').getDay();if(dow!==0&&dow!==6&&!RATES[s.start])return null;let r=RATES[s.start]||RATES['08:00'];let base=dow===0?360.24:dow===6?270.18:r[0],otRate=dow===0?74.54:dow===6?55.91:r[1],factor=s.kind==='half'?.5:1;let wage=round(base*factor),premium=round((+settings.premium||0)*factor),overtime=round((+s.overtime||0)*otRate),extra=round(+s.extra||0),gross=round(wage+premium+overtime+extra),social=round(gross*(+settings.rsz||0)/100),tax=round(Math.max(0,gross-social)*(+settings.tax||0)/100),travel=round((+settings.travel||0)*factor),bonus=round((+settings.bonus||0)*factor),net=round(gross-social-tax+travel+bonus);return {wage,premium,overtime,extra,gross,social,tax,travel,bonus,net}}
+function calcRaw(k,s){
+ const dow=new Date(k+'T12:00:00').getDay();if(dow!==0&&dow!==6&&!RATES[s.start])return null;
+ const r=RATES[s.start]||RATES['08:00'],factor=s.kind==='half'?.5:1;
+ const wage=round((dow===0?360.24:dow===6?270.18:r[0])*factor),premium=round((+settings.premium||0)*factor);
+ const overtime=round((+s.overtime||0)*(dow===0?74.54:dow===6?55.91:r[1])),extra=round(+s.extra||0);
+ return {wage,premium,overtime,extra,gross:round(wage+premium+overtime+extra),travel:round(+settings.travel||0),clothing:round(+settings.clothing||0),deduction:round(+settings.deduction||0),bonus:round((+settings.bonus||0)*factor)};
+}
+function runId(k){return k==='2026-10-10'?'2026-10-late':k.slice(0,7)+(Number(k.slice(8))<=15?'-early':'-late')}
+function allocate(amount,weights){
+ const cents=Math.round(amount*100),sum=weights.reduce((a,b)=>a+b,0);
+ if(!cents||!sum)return weights.map(()=>0);
+ const parts=weights.map(w=>cents*w/sum),whole=parts.map(Math.floor);
+ let left=cents-whole.reduce((a,b)=>a+b,0);
+ const order=parts.map((n,i)=>i).sort((a,b)=>(parts[b]-whole[b])-(parts[a]-whole[a])||a-b);
+ for(let i=0;i<left;i++)whole[order[i]]++;
+ return whole.map(n=>n/100);
+}
+function calculateMonth(y,m,includePlanned,overrideKey,overrideShift){
+ const month=y+'-'+String(m+1).padStart(2,'0'),groups={},results={};
+ const source={...shifts};if(overrideKey)source[overrideKey]=overrideShift;
+ const selected=Object.keys(source).filter(k=>k.startsWith(month+'-')&&(includePlanned||source[k].status!=='planned')).sort();
+ for(const k of selected){const raw=calcRaw(k,source[k]);if(!raw)continue;(groups[runId(k)]||=[]).push({k,raw,shift:source[k]})}
+ let grossTotal=0,netTotal=0,confirmedCount=0;const confirmed=[];
+ for(const [id,items] of Object.entries(groups)){
+  const gross=round(items.reduce((sum,item)=>sum+item.raw.gross,0));
+  const allowance=round(items.reduce((sum,item)=>sum+item.raw.travel+item.raw.clothing,0));
+  const deduction=round(items.reduce((sum,item)=>sum+item.raw.deduction,0));
+  const proof=PAYSLIPS[id],matches=proof&&items.every(item=>item.shift.status!=='planned')&&items.map(item=>item.k).join('|')===proof.dates.join('|')&&gross===proof.gross&&allowance===proof.allowance&&deduction===proof.deduction&&Number(settings.bonus)===0&&settings.taxMode==='payslip';
+  const social=matches?proof.social:round(gross*(+settings.rsz||0)/100),taxable=round(gross-social);
+  const withholding=matches?proof.withholding:settings.taxMode==='manual'?round(taxable*(+settings.tax||0)/100):round(Math.min(taxable,Math.max(0,(taxable-876.70)*(596.19/(2308.47-876.70)))));
+  const weights=items.map(item=>item.raw.gross),socialParts=allocate(social,weights),taxParts=allocate(withholding,weights);
+  for(let i=0;i<items.length;i++){
+   const {k,raw}=items[i],daySocial=socialParts[i],dayTax=taxParts[i];
+   results[k]={...raw,social:daySocial,tax:dayTax,net:round(raw.gross-daySocial-dayTax+raw.travel+raw.clothing+raw.bonus-raw.deduction),confirmed:!!matches,paid:matches?proof.paid:null};
+  }
+  grossTotal=round(grossTotal+gross);
+  netTotal=round(netTotal+gross-social-withholding+allowance-deduction+items.reduce((sum,item)=>sum+item.raw.bonus,0));
+  if(matches){confirmed.push(proof);confirmedCount+=items.length}
+ }
+ return {gross:grossTotal,net:netTotal,count:selected.length,results,confirmed,confirmedCount};
+}
 function render(){
  const {year:y,month:m}=state;
+ const worked=calculateMonth(y,m,false),projected=calculateMonth(y,m,true);state.worked=worked;state.projected=projected;
  const title=new Intl.DateTimeFormat('nl-BE',{month:'long',year:'numeric'}).format(new Date(y,m,1));
  $('monthTitle').textContent=title[0].toUpperCase()+title.slice(1);
  const cal=$('calendar');cal.replaceChildren();
  let offset=(new Date(y,m,1).getDay()+6)%7;
  for(let i=0;i<offset;i++){let x=document.createElement('div');x.className='day empty';cal.append(x)}
- let gross=0,net=0,projected=0,count=0;
  for(let d=1;d<=new Date(y,m+1,0).getDate();d++){
-  let k=key(y,m,d),shift=shifts[k],result=shift?calc(k,shift):null,b=document.createElement('button');
+  let k=key(y,m,d),shift=shifts[k],result=shift?(shift.status==='planned'?projected.results[k]:worked.results[k]):null,b=document.createElement('button');
   b.type='button';b.className='day'+(shift?(shift.status==='planned'?' planned':' worked'):'')+(state.selected===k?' selected':'');
   b.innerHTML='<span>'+d+'</span>'+(shift?'<span class="amount">'+(result?fmt.format(result.net):'tijd ontbreekt')+'</span>':'');
   b.setAttribute('aria-label',dateLabel(k)+(shift?(shift.status==='planned'?' gepland':' gewerkt'):' niet ingevuld'));b.onclick=()=>select(k);cal.append(b);
-  if(shift){if(shift.status!=='planned')count++;if(result){projected+=result.net;if(shift.status!=='planned'){gross+=result.gross;net+=result.net}}}
  }
- $('grossTotal').textContent=fmt.format(gross);$('netTotal').textContent=fmt.format(net);$('projectedTotal').textContent=fmt.format(projected);$('dayCount').textContent=count;
+ $('grossTotal').textContent=fmt.format(worked.gross);$('netTotal').textContent=fmt.format(worked.net);$('projectedTotal').textContent=fmt.format(projected.net);$('dayCount').textContent=worked.count;
+ $('netLabel').textContent=worked.count&&worked.confirmedCount===worked.count?'Netto volgens loonbrief':'Netto raming gewerkt';
+ $('payrollNote').textContent=worked.confirmed.length?'Loonbrief bevestigd: '+worked.confirmed.map(p=>p.paid+': '+fmt.format(p.gross)+' bruto − '+fmt.format(p.social)+' RSZ − '+fmt.format(p.withholding)+' voorheffing + '+fmt.format(p.allowance)+' vergoedingen − '+fmt.format(p.deduction)+' inhouding = '+fmt.format(p.net)+' netto').join(' · ')+'. Dagbedragen zijn toegerekend; de loonbrief geeft alleen een totaal.'+(worked.confirmedCount<worked.count?' Overige dagen zijn geraamd.':''):(worked.count?'Netto is een raming op basis van je loonbrieven. Voorheffing kan per loonperiode verschillen.':'');
  let list=$('entries');list.replaceChildren();
  let keys=Object.keys(shifts).filter(k=>k.startsWith(y+'-'+String(m+1).padStart(2,'0'))).sort();
  if(!keys.length)list.textContent='Nog geen dagen gekozen.';
@@ -72,14 +132,21 @@ function render(){
   let time=shift.start?(shift.start+(shift.end?'–'+shift.end:'')):'startuur onbekend';
   let hours=shift.hours?' · '+shift.hours+'u'+(shift.assumedHours?' aangenomen':''):'';
   a.textContent=new Intl.DateTimeFormat('nl-BE',{day:'numeric',month:'short',weekday:'short'}).format(new Date(k+'T12:00:00'))+' · '+(shift.status==='planned'?'GEPLAND · ':'')+(shift.company?shift.company+' · ':'')+time+hours;
-  let button=document.createElement('button'),result=calc(k,shift);button.textContent=result?fmt.format(result.net):'tijd invullen';button.onclick=()=>select(k);row.append(a,button);list.append(row)
+  let button=document.createElement('button'),result=shift.status==='planned'?projected.results[k]:worked.results[k];button.textContent=result?fmt.format(result.net):'tijd invullen';button.onclick=()=>select(k);row.append(a,button);list.append(row)
  }
  renderSelected()
 }
-function renderSelected(){let k=state.selected,s=shifts[k]||{company:'',start:'08:00',end:'',hours:'',kind:'full',overtime:0,extra:0};$('selectedTitle').textContent=dateLabel(k);$('status').value=s.status||'worked';$('company').value=s.company||'';$('start').value=s.start||'';$('end').value=s.end||'';$('hours').value=s.hours||'';$('kind').value=s.kind;$('overtime').value=s.overtime;$('extra').value=s.extra;$('remove').disabled=!shifts[k];let c=calc(k,s);$('breakdown').innerHTML=c?[['Basisloon',c.wage],['Vaste dagpremie',c.premium],['Overuren',c.overtime],['Extra premie',c.extra],['Bruto',c.gross],['RSZ raming',-c.social],['Voorheffing raming',-c.tax],['Vervoer Oostende',c.travel],['Werkbonus / correctie',c.bonus],['Netto raming',c.net]].map((r,i)=>'<div class="line'+(i===9?' total':'')+'"><span>'+r[0]+'</span><strong>'+fmt.format(r[1])+'</strong></div>').join(''):'<p class="note">Vul het startuur in om dit weekdagloon te ramen.</p>'}
+function renderSelected(){
+ let k=state.selected,s=shifts[k]||{company:'',start:'08:00',end:'',hours:'',kind:'full',overtime:0,extra:0};
+ $('selectedTitle').textContent=dateLabel(k);$('status').value=s.status||'worked';$('company').value=s.company||'';$('start').value=s.start||'';$('end').value=s.end||'';$('hours').value=s.hours||'';$('kind').value=s.kind;$('overtime').value=s.overtime;$('extra').value=s.extra;$('remove').disabled=!shifts[k];
+ let c=shifts[k]?(s.status==='planned'?state.projected.results[k]:state.worked.results[k]):calculateMonth(state.year,state.month,false,k,{...s,status:'worked'}).results[k];
+ $('breakdown').innerHTML=c?[['Basisloon',c.wage],['Vaste dagpremie',c.premium],['Overuren',c.overtime],['Extra premie',c.extra],['Bruto',c.gross],['RSZ toegerekend',-c.social],['Voorheffing toegerekend',-c.tax],['Vervoer Oostende',c.travel],['Kledijvergoeding',c.clothing],['Andere inhouding',-c.deduction],['Werkbonus / correctie',c.bonus],[c.confirmed?'Netto toegerekend':'Netto raming',c.net]].map((r,i)=>'<div class="line'+(i===11?' total':'')+'"><span>'+r[0]+'</span><strong>'+fmt.format(r[1])+'</strong></div>').join('')+(c.confirmed?'<p class="note">Toegerekend uit de loonbrief van '+c.paid+'; alleen het totaal is een bevestigd nettobedrag.</p>':''):'<p class="note">Vul het startuur in om dit weekdagloon te ramen.</p>';
+}
 function select(k){state.selected=k;render()}
 for(let h of Object.keys(RATES)){let o=document.createElement('option');o.value=h;o.textContent=h+' u';$('start').append(o)}
-for(let name of Object.keys(defaults)){$(name).value=settings[name];$(name).addEventListener('input',()=>{settings[name]=Math.max(0,Number($(name).value)||0);localStorage.setItem('mijn-haven-settings',JSON.stringify(settings));render()})}
+for(let name of Object.keys(defaults).filter(name=>name!=='taxMode')){$(name).value=settings[name];$(name).addEventListener('input',()=>{settings[name]=Math.max(0,Number($(name).value)||0);localStorage.setItem('mijn-haven-settings',JSON.stringify(settings));render()})}
+$('taxMode').value=settings.taxMode;$('tax').disabled=settings.taxMode!=='manual';
+$('taxMode').addEventListener('change',()=>{settings.taxMode=$('taxMode').value;$('tax').disabled=settings.taxMode!=='manual';localStorage.setItem('mijn-haven-settings',JSON.stringify(settings));render()});
 $('shiftForm').onsubmit=e=>{e.preventDefault();shifts[state.selected]={status:$('status').value,company:$('company').value.trim(),start:$('start').value,end:$('end').value,hours:Math.max(0,+$('hours').value||0),assumedHours:(shifts[state.selected]?.assumedHours||false)&&!$('start').value,kind:$('kind').value,overtime:Math.max(0,+$('overtime').value||0),extra:Math.max(0,+$('extra').value||0)};localStorage.setItem('mijn-haven-shifts',JSON.stringify(shifts));render()};
 $('remove').onclick=()=>{delete shifts[state.selected];localStorage.setItem('mijn-haven-shifts',JSON.stringify(shifts));render()};
 $('prev').onclick=()=>{let d=new Date(state.year,state.month-1,1);state.year=d.getFullYear();state.month=d.getMonth();select(key(state.year,state.month,1))};
